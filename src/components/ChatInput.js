@@ -22,11 +22,12 @@ function ChatInput({ onSendMessage }) {
     };
 
     return (
-        <div className="flex items-center justify-between w-full mx-auto bg-gray-300 rounded-full px-3 mb-3">
+        <div className="flex items-center justify-between w-full mx-auto  rounded-full px-3 mb-3 shadow-top-xl">
             <div className="flex w-full">
-                <img src={images.searchIcon} alt="Search Icon" className="w-[40px] h-[40px]" />
+                <img src={images.searchIcon} alt="Search Icon" className="mt-2 w-[40px] h-[40px]" />
                 <input
                     type="text"
+                    placeholder="질문을 입력하세요!"
                     value={userInput}
                     onChange={handleInputChange}
                     onKeyUp={handleInputKeyUp}

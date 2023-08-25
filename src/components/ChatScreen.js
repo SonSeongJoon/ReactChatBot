@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, memo } from 'react';
 import MessageCard from './MessageCard';
+import ChatButton from './ChatButton';
 
-function ChatScreen({ messages }) {
+function ChatScreen({ messages, onKeywordClick, lastReply }) {
     const messagesEndRef = useRef(null);
+    const keywords = lastReply?.answer.keywords || [];
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -11,7 +13,7 @@ function ChatScreen({ messages }) {
     }, [messages]);
 
     return (
-        <div className="w-full overflow-auto">
+        <div className="w-full overflow-auto max-h-[calc(100vh-100px)]">
             <div className="flex flex-col gap-2 p-4">
                 {messages.map((message, index) => (
                     <MessageCard
@@ -21,6 +23,19 @@ function ChatScreen({ messages }) {
                         isUser={message.isUser}
                     />
                 ))}
+
+                {/* 2. Display the ChatButton component */}
+                <div className='flex'>
+                    {keywords.map(keyword => (
+                        <ChatButton
+                            key={keyword}
+                            keyword={keyword}
+                            onButtonClick={() => onKeywordClick(keyword)}
+                        />
+                    ))}
+                </div>
+
+
                 <div ref={messagesEndRef}></div>
             </div>
         </div>

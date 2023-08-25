@@ -3,8 +3,7 @@ import ChatHeader from './ChatHeader';
 import ChatIntro from './ChatIntro';
 import ChatScreen from './ChatScreen';
 import ChatInput from './ChatInput';
-import replies from './replies';  // replies 파일 불러오기
-
+import { replies, keywordsAnswers } from './replies';
 
 const chatReducer = (state, action) => {
     switch (action.type) {
@@ -21,6 +20,11 @@ const chatReducer = (state, action) => {
                 messages: botMessage ? [...state.messages, userMessage, botMessage] : [...state.messages, userMessage],
                 showIntro: false
             };
+        case 'ADD_MESSAGE':
+            return {
+                ...state,
+                messages: [...state.messages, action.payload]
+            };
         default:
             return state;
     }
@@ -31,6 +35,8 @@ function ChatContainer() {
         showIntro: true,
         messages: [{ text: "안녕하세요! GPT 역사투어입니다!", isUser: false }]
     });
+    const lastUserMessage = state.messages.filter(msg => msg.isUser).slice(-1)[0];
+    const lastReply = replies.find(r => r.question === lastUserMessage?.text);
 
     const handleSendMessage = (inputText) => {
         if (inputText.trim()) {
@@ -38,11 +44,31 @@ function ChatContainer() {
         }
     };
 
+    const onKeywordClick = (keyword) => {
+        const keywordAnswer = keywordsAnswers[keyword];
+        let newMessage = {};
+
+        if (typeof keywordAnswer === "string") {
+            newMessage = {
+                text: keywordAnswer,
+                isUser: false
+            };
+        } else if (typeof keywordAnswer === "object" || keywordAnswer instanceof Image) {
+            newMessage = {
+                image: keywordAnswer.src,
+                isUser: false
+            };
+        }
+
+        dispatch({ type: 'ADD_MESSAGE', payload: newMessage });
+    };
+
+
     return (
         <html className="flex flex-col w-full max-w-screen-md mx-auto">
         {state.showIntro ? <ChatHeader talk={false}/> : <ChatHeader talk={true}/>}
-        <body className='flex items-center justify-center overflow-auto'>
-        {state.showIntro ? <ChatIntro /> : <ChatScreen messages={state.messages} />}
+        <body className='flex items-center justify-center '>
+        {state.showIntro ? <ChatIntro /> : <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply} />}
         </body>
         <ChatInput onSendMessage={handleSendMessage} />
         </html>
@@ -50,3 +76,4 @@ function ChatContainer() {
 }
 
 export default ChatContainer;
+
