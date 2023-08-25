@@ -7,10 +7,13 @@ function ChatScreen({ messages, onKeywordClick, lastReply }) {
     const keywords = lastReply?.answer.keywords || [];
 
     useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
+        setTimeout(() => {
+            if (messagesEndRef.current) {
+                messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 100);  // 100ms 지연
     }, [messages]);
+
 
     return (
         <div className="w-full overflow-auto max-h-[calc(100vh-100px)]">
@@ -19,10 +22,12 @@ function ChatScreen({ messages, onKeywordClick, lastReply }) {
                     <MessageCard
                         key={index}
                         message={message.text}
-                        image={message.image}  // Pass the image to MessageCard
+                        image={message.image}
+                        video={message.video}  // 영상 경로 전달
                         isUser={message.isUser}
                     />
                 ))}
+
 
                 {/* 2. Display the ChatButton component */}
                 <div className='flex'>
@@ -34,10 +39,8 @@ function ChatScreen({ messages, onKeywordClick, lastReply }) {
                         />
                     ))}
                 </div>
-
-
-                <div ref={messagesEndRef}></div>
             </div>
+            <div ref={messagesEndRef}></div>
         </div>
     );
 }

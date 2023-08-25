@@ -1,6 +1,7 @@
 import images from "./images";
+import videos from "./videos"
 const keywordsAnswers = {
-    "모슨트영상": "문화유산에는 불국사, 석굴암 등이 있습니다.",
+    "도슨트영상": videos.Docent,
     "관광지도": images.Map,
     "역사퀴즈": "다음은 경주의 역사와 관련된 문제입니다.<br/>\n" +
         "            보기를 읽고 정답을 고르세요.<br/><br/>\n" +
@@ -39,6 +40,7 @@ const replies = [
                 "첨성대는 세계에서 가장 오래된 천문대로 알려져 있습니다. 경주는 역" +
                 "사와 문화를 느낄 수 있는 멋진 도시이니, 방문해보시기를 추천드립니다.!",
             image: images.StonTop,
+            video: "/path/to/video.mp4", // 예를 들어 video 속성을 추가하였다.
             keywords: ["도슨트영상", "관광지도", "역사퀴즈", "여행 코스 추천"]
         }
     },

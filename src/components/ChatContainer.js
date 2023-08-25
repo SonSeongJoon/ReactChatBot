@@ -44,25 +44,40 @@ function ChatContainer() {
         }
     };
 
+    // ChatContainer.js
+
     const onKeywordClick = (keyword) => {
         const keywordAnswer = keywordsAnswers[keyword];
-        let newMessage = {};
+        let newMessage;
 
-        if (typeof keywordAnswer === "string") {
+        if (!keywordAnswer) {
+            return; // keywordAnswer가 없으면 빠르게 함수를 종료
+        }
+
+        // 이미지 경로로 간주
+        if (keywordAnswer.startsWith('/static/media/') && (keywordAnswer.endsWith('.png') || keywordAnswer.endsWith('.jpg') || keywordAnswer.endsWith('.jpeg'))) {
             newMessage = {
-                text: keywordAnswer,
+                image: keywordAnswer,
                 isUser: false
             };
-        } else if (typeof keywordAnswer === "object" || keywordAnswer instanceof Image) {
+        }
+        // 영상 경로로 간주
+        else if (keywordAnswer.startsWith('/static/media/') && (keywordAnswer.endsWith('.mp4') || keywordAnswer.endsWith('.webm'))) {
             newMessage = {
-                image: keywordAnswer.src,
+                video: keywordAnswer,
+                isUser: false
+            };
+        }
+        // 텍스트로 간주
+        else {
+            newMessage = {
+                text: keywordAnswer,
                 isUser: false
             };
         }
 
         dispatch({ type: 'ADD_MESSAGE', payload: newMessage });
     };
-
 
     return (
         <html className="flex flex-col w-full max-w-screen-md mx-auto">
