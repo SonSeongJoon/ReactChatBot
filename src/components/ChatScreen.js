@@ -11,7 +11,7 @@ function ChatScreen({ messages, onKeywordClick, lastReply }) {
             if (messagesEndRef.current) {
                 messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
             }
-        }, 100);  // 100ms 지연
+        }, 300);  // 100ms 지연
     }, [messages]);
 
 
