@@ -5,7 +5,7 @@ function ChatInput({ onSendMessage }) {
     const [userInput, setUserInput] = useState('');
 
     const sendMessage = () => {
-        console.log("sendMessage called with:", userInput); // 로깅 추가
+        console.log("sendMessage called with:", userInput);
         if (userInput.trim() === '') return;
         onSendMessage(userInput);
         setUserInput('');
@@ -14,15 +14,15 @@ function ChatInput({ onSendMessage }) {
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
     };
+
     const handleInputKeyUp = (event) => {
         if (event.key === 'Enter') {
             sendMessage();
         }
     };
 
-
     return (
-        <div className="flex items-center justify-between w-full mx-auto bg-gray-300 rounded-full px-5 mb-10">
+        <div className="flex items-center justify-between w-full mx-auto bg-gray-300 rounded-full px-3 mb-3">
             <div className="flex w-full">
                 <img src={images.searchIcon} alt="Search Icon" className="w-[40px] h-[40px]" />
                 <input
@@ -34,10 +34,9 @@ function ChatInput({ onSendMessage }) {
                 />
             </div>
             <button onClick={sendMessage}>
-                <img src={images.sendIcon} alt="Send Icon" className='mt-1' />
+                <img src={images.sendIcon} alt="Send Icon" className="w-[50px] h-[50px]"/>
             </button>
         </div>
     );
 }
-
 export default memo(ChatInput);

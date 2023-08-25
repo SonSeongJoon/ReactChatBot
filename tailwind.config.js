@@ -6,7 +6,11 @@ module.exports = {
     './components/**/*.{html,js}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {
+        'xxs': '15rem'
+      }
+    },
   },
   plugins: [],
 }
