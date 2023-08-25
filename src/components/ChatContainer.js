@@ -80,7 +80,7 @@ function ChatContainer() {
     };
 
     return (
-        <html className="flex flex-col w-full max-w-screen-md mx-auto">
+        <html className="flex flex-col w-full max-w-screen-md mx-auto bg-gray-50">
         {state.showIntro ? <ChatHeader talk={false}/> : <ChatHeader talk={true}/>}
         <body className='flex items-center justify-center '>
         {state.showIntro ? <ChatIntro /> : <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply} />}
