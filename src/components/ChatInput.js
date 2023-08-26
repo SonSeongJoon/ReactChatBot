@@ -10,7 +10,6 @@ function ChatInput({ onSendMessage }) {
         onSendMessage(userInput);
         setUserInput('');
     };
-
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
     };

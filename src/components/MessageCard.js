@@ -14,7 +14,8 @@ function MessageCard({message, isUser, image, video}) {
                     )}
                     {image && (
                         <div className="mt-2">
-                            <img src={image} alt="Bot message image" className="w-full max-w-xs rounded"/>
+                            {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                            <img src={image} alt="image" className="w-full max-w-xs rounded"/>
                         </div>
                     )}
                 </div>
@@ -33,6 +34,7 @@ function MessageCard({message, isUser, image, video}) {
                     }}>
                         {
                             <div className="mt-2">
+                                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                                 <img src={image} alt="Bot message image" className="w-full max-w-xs rounded"/>
                             </div>
                         }
