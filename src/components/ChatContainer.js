@@ -42,22 +42,26 @@ function ChatContainer() {
         if (inputText) {
             dispatch({ type: 'SEND_MESSAGE', payload: inputText });
 
+            const reply = replies.find(r => r.question === inputText);
 
-            // LangChain API를 호출하여 응답을 가져옵니다.
-            const response = await lang(inputText);
-            const data = JSON.stringify(response)
+            if (!reply?.answer?.fromButton) {
+                // LangChain API를 호출하여 응답을 가져옵니다.
+                const response = await lang(inputText);
+                let data = response;
 
-            // 응답을 메시지로 추가합니다.
-            const botMessage = {
-                text: data,
-                isUser: false
-            };
-            console.log(botMessage)
-            dispatch({ type: 'ADD_MESSAGE', payload: botMessage });
+                data = data.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s]/g, '');
+
+
+                // 응답을 메시지로 추가합니다.
+                const botMessage = {
+                    text: data,
+                    isUser: false
+                };
+                console.log(botMessage);
+                dispatch({ type: 'ADD_MESSAGE', payload: botMessage });
+            }
         }
     };
-
-
 
     // ChatContainer.js
 
@@ -90,7 +94,6 @@ function ChatContainer() {
                 isUser: false
             };
         }
-
         dispatch({ type: 'ADD_MESSAGE', payload: newMessage });
     };
 

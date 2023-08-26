@@ -41,7 +41,10 @@ const replies = [
                 "사와 문화를 느낄 수 있는 멋진 도시이니, 방문해보시기를 추천드립니다.!",
             image: images.StonTop,
             video: "/path/to/video.mp4", // 예를 들어 video 속성을 추가하였다.
-            keywords: ["도슨트영상", "관광지도", "역사퀴즈", "여행 코스 추천"]
+            keywords: ["도슨트영상", "관광지도", "역사퀴즈", "여행 코스 추천"],
+            fromButton: true  // 버튼 클릭으로부터 생성된 답변을 표시
+
+
         }
     },
     {

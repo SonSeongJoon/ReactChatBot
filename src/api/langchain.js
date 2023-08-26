@@ -1,5 +1,5 @@
 import { OpenAI } from "langchain/llms/openai";
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
 export const lang = async (userinput) => {
     const llm = new OpenAI({
@@ -11,6 +11,6 @@ export const lang = async (userinput) => {
         return res;
     } catch (error) {
         console.error("LangChain API error:", error);
-        return { text: "죄송합니다. 현재 서비스에 문제가 있습니다.", isUser: false };
+        return { text: "죄송합니다. API에서 문제가 있습니다.", isUser: false };
     }
 }

@@ -17,21 +17,20 @@ function ChatScreen({ messages, onKeywordClick, lastReply, loading }) {
 
     return (
         <div className="w-full overflow-auto max-h-[calc(100vh-100px)]">
-            {loading && <div className="loading-indicator">로딩 중...</div>} {/* 로딩 인디케이터 표시 */}
             <div className="flex flex-col gap-2 p-4">
                 {messages.map((message, index) => (
                     <MessageCard
                         key={index}
                         message={message.text}
                         image={message.image}
-                        video={message.video}  // 영상 경로 전달
+                        video={message.video}
                         isUser={message.isUser}
                     />
                 ))}
 
 
                 {/* 2. Display the ChatButton component */}
-                <div className='flex flex-col gap-2 items-end'> {/* items-end를 추가 */}
+                <div className='flex flex-col gap-2 items-end text-md'> {/* items-end를 추가 */}
                     {keywords.map(keyword => (
                         <ChatButton
                             key={keyword}
@@ -46,5 +45,4 @@ function ChatScreen({ messages, onKeywordClick, lastReply, loading }) {
         </div>
     );
 }
-
-export default memo(ChatScreen);
+export default ChatScreen;
