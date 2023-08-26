@@ -4,7 +4,7 @@ function MessageCard({message, isUser, image, video}) {
     return (
         <div className={`message flex w-full ${isUser ? 'justify-end self-end' : 'justify-start self-start'}`}>
             {isUser ? (
-                <div className="bot-card chat-bubble bg-green-300 rounded-lg py-2 px-4">
+                <div className="bot-card chat-bubble rounded-lg py-2 px-4 text-white text-md shadow-lg" style={{backgroundColor: '#02B394'}}>
                     <div dangerouslySetInnerHTML={{__html: message}}></div>
                     {video && (
                         <video width="320" height="240" controls>
@@ -22,7 +22,7 @@ function MessageCard({message, isUser, image, video}) {
             ) : (
                 <div>
                     {message &&
-                        <div className="bot-card chat-bubble rounded-lg py-2 px-4" style={{backgroundColor: '#E9FFFF'}}>
+                        <div className="bot-card chat-bubble rounded-lg py-2 px-4 shadow-lg" style={{backgroundColor: '#F7F7FA'}}>
                             {<div dangerouslySetInnerHTML={{__html: message}}></div>}
 
                         </div>}
@@ -49,7 +49,6 @@ function MessageCard({message, isUser, image, video}) {
 
                     )}
                 </div>
-
             )}
         </div>
     );

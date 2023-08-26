@@ -47,11 +47,8 @@ function ChatContainer() {
             if (!reply?.answer?.fromButton) {
                 // LangChain API를 호출하여 응답을 가져옵니다.
                 const response = await lang(inputText);
-                let data = response;
-
-                data = data.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s]/g, '');
-
-
+                // let text = JSON.stringify(response)
+                let data = response.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s]/g, '');
                 // 응답을 메시지로 추가합니다.
                 const botMessage = {
                     text: data,
@@ -98,7 +95,7 @@ function ChatContainer() {
     };
 
     return (
-        <html className="flex flex-col w-full max-w-screen-md mx-auto bg-gray-50">
+        <html className="flex flex-col w-full max-w-screen-md mx-auto ">
         {state.showIntro ? <ChatHeader talk={false}/> : <ChatHeader talk={true}/>}
         <body className='flex items-center justify-center '>
         {state.showIntro ? <ChatIntro /> : <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply}/>}

@@ -3,7 +3,7 @@ import images from "./images";
 
 function ChatHeader({talk}) {
     return (
-        <div className='flex items-center mt-10'>
+        <div className='flex items-center m-10'>
             <div
                 className='w-1/2'>
                 <img src={images.menuIcon} alt="Menu Icon"/>
