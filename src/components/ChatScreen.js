@@ -30,7 +30,7 @@ function ChatScreen({ messages, onKeywordClick, lastReply, loading }) {
 
 
                 {/* 2. Display the ChatButton component */}
-                <div className='flex flex-col gap-2 items-end text-md'> {/* items-end를 추가 */}
+                <div className='flex items-end justify-end'>
                     {keywords.map(keyword => (
                         <ChatButton
                             key={keyword}

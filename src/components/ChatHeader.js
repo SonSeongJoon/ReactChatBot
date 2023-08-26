@@ -3,9 +3,9 @@ import images from "./images";
 
 function ChatHeader({talk}) {
     return (
-        <div className='flex items-center m-10'>
+        <div className='flex items-center'>
             <div
-                className='w-1/2'>
+                className='w-1/2 p-2'>
                 <img src={images.menuIcon} alt="Menu Icon"/>
             </div>
 
