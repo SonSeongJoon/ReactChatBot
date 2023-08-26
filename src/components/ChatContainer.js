@@ -4,7 +4,7 @@ import ChatIntro from './ChatIntro';
 import ChatScreen from './ChatScreen';
 import ChatInput from './ChatInput';
 import { replies, keywordsAnswers } from './replies';
-
+import {lang} from "../api/langchain";
 const chatReducer = (state, action) => {
     switch (action.type) {
         case 'SEND_MESSAGE':
@@ -38,11 +38,26 @@ function ChatContainer() {
     const lastUserMessage = state.messages.filter(msg => msg.isUser).slice(-1)[0];
     const lastReply = replies.find(r => r.question === lastUserMessage?.text);
 
-    const handleSendMessage = (inputText) => {
-        if (inputText.trim()) {
+    const handleSendMessage = async (inputText) => {
+        if (inputText) {
             dispatch({ type: 'SEND_MESSAGE', payload: inputText });
+
+
+            // LangChain API를 호출하여 응답을 가져옵니다.
+            const response = await lang(inputText);
+            const data = JSON.stringify(response)
+
+            // 응답을 메시지로 추가합니다.
+            const botMessage = {
+                text: data,
+                isUser: false
+            };
+            console.log(botMessage)
+            dispatch({ type: 'ADD_MESSAGE', payload: botMessage });
         }
     };
+
+
 
     // ChatContainer.js
 
@@ -83,7 +98,7 @@ function ChatContainer() {
         <html className="flex flex-col w-full max-w-screen-md mx-auto bg-gray-50">
         {state.showIntro ? <ChatHeader talk={false}/> : <ChatHeader talk={true}/>}
         <body className='flex items-center justify-center '>
-        {state.showIntro ? <ChatIntro /> : <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply} />}
+        {state.showIntro ? <ChatIntro /> : <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply}/>}
         </body>
         <ChatInput onSendMessage={handleSendMessage} />
         </html>

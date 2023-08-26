@@ -2,7 +2,7 @@ import React, { useRef, useEffect, memo } from 'react';
 import MessageCard from './MessageCard';
 import ChatButton from './ChatButton';
 
-function ChatScreen({ messages, onKeywordClick, lastReply }) {
+function ChatScreen({ messages, onKeywordClick, lastReply, loading }) {
     const messagesEndRef = useRef(null);
     const keywords = lastReply?.answer.keywords || [];
 
@@ -17,6 +17,7 @@ function ChatScreen({ messages, onKeywordClick, lastReply }) {
 
     return (
         <div className="w-full overflow-auto max-h-[calc(100vh-100px)]">
+            {loading && <div className="loading-indicator">로딩 중...</div>} {/* 로딩 인디케이터 표시 */}
             <div className="flex flex-col gap-2 p-4">
                 {messages.map((message, index) => (
                     <MessageCard
