@@ -1,116 +1,73 @@
-import React, {useReducer} from 'react';
+import React, { useReducer } from 'react';
 import ChatHeader from './ChatHeader';
 import ChatIntro from './ChatIntro';
 import ChatScreen from './ChatScreen';
 import ChatInput from './ChatInput';
-import {replies, keywordsAnswers} from './replies';
-import {lang} from "../api/langchain";
+import { replies, keywordsAnswers } from './replies';
+import { lang } from "../api/langchain";
+import { chatReducer } from "../reducer/chatReducer";
 
-const chatReducer = (state, action) => {
-    switch (action.type) {
-        case 'SEND_MESSAGE':
-            const userMessage = {text: action.payload, isUser: true};
-            // replies 배열에서 일치하는 질문을 찾습니다.
-            const reply = replies.find(r => r.question === action.payload);
+function getMessageType(keywordAnswer) {
+    const imageFormats = ['.png', '.jpg', '.jpeg'];
+    const videoFormats = ['.mp4', '.webm'];
+    const startsWithStatic = keywordAnswer.startsWith('/static/media/');
 
-            // 일치하는 답변이 있으면 해당 답변의 텍스트를 사용하고, 없으면 null을 반환합니다.
-            const botMessage = reply ? {text: reply.answer.text, image: reply.answer.image, isUser: false} : null;
-
-            return {
-                ...state,
-                messages: botMessage ? [...state.messages, userMessage, botMessage] : [...state.messages, userMessage],
-                showIntro: false
-            };
-        case 'ADD_MESSAGE':
-            return {
-                ...state,
-                messages: [...state.messages, action.payload]
-            };
-        default:
-            return state;
+    if (startsWithStatic && imageFormats.some(format => keywordAnswer.endsWith(format))) {
+        return 'image';
+    } else if (startsWithStatic && videoFormats.some(format => keywordAnswer.endsWith(format))) {
+        return 'video';
     }
-};
+    return 'text';
+}
 
 function ChatContainer() {
     const [state, dispatch] = useReducer(chatReducer, {
         showIntro: true,
-        messages: [{text: "안녕하세요! GPT 역사투어입니다!", isUser: false}]
+        messages: [{ text: "안녕하세요! GPT 역사투어입니다!", isUser: false }]
     });
+
     const lastUserMessage = state.messages.filter(msg => msg.isUser).slice(-1)[0];
     const lastReply = replies.find(r => r.question === lastUserMessage?.text);
 
     const handleSendMessage = async (inputText) => {
-        if (inputText) {
-            dispatch({type: 'SEND_MESSAGE', payload: inputText});
+        if (!inputText) return;
 
-            const reply = replies.find(r => r.question === inputText);
+        dispatch({ type: 'SEND_MESSAGE', payload: inputText });
 
-            if (!reply?.answer?.fromButton) {
-                // LangChain API를 호출하여 응답을 가져옵니다.
-                const response = await lang(inputText);
-                // let text = JSON.stringify(response)
-                let data = response.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s]/g, '');
-                // 응답을 메시지로 추가합니다.
-                const botMessage = {
-                    text: data,
-                    isUser: false
-                };
-                console.log(botMessage);
-                dispatch({type: 'ADD_MESSAGE', payload: botMessage});
-            }
+        const reply = replies.find(r => r.question === inputText);
+
+        if (!reply?.answer?.fromButton) {
+            const response = await lang(inputText);
+            let data = response.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s]/g, '');
+            dispatch({ type: 'ADD_MESSAGE', payload: { text: data, isUser: false } });
         }
     };
 
-    // ChatContainer.js
-
     const onKeywordClick = (keyword) => {
         const keywordAnswer = keywordsAnswers[keyword];
-        let newMessage;
+        if (!keywordAnswer) return;
 
-        if (!keywordAnswer) {
-            return; // keywordAnswer가 없으면 빠르게 함수를 종료
-        }
-
-        // 이미지 경로로 간주
-        if (keywordAnswer.startsWith('/static/media/') && (keywordAnswer.endsWith('.png') || keywordAnswer.endsWith('.jpg') || keywordAnswer.endsWith('.jpeg'))) {
-            newMessage = {
-                image: keywordAnswer,
-                isUser: false
-            };
-        }
-        // 영상 경로로 간주
-        else if (keywordAnswer.startsWith('/static/media/') && (keywordAnswer.endsWith('.mp4') || keywordAnswer.endsWith('.webm'))) {
-            newMessage = {
-                video: keywordAnswer,
-                isUser: false
-            };
-        }
-        // 텍스트로 간주
-        else {
-            newMessage = {
-                text: keywordAnswer,
-                isUser: false
-            };
-        }
-        dispatch({type: 'ADD_MESSAGE', payload: newMessage});
+        const messageType = getMessageType(keywordAnswer);
+        const newMessage = {
+            [messageType]: keywordAnswer,
+            isUser: false
+        };
+        dispatch({ type: 'ADD_MESSAGE', payload: newMessage });
     };
 
     return (
         <div className="flex flex-col h-[95vh] max-w-screen-md mx-auto justify-center">
             <div className='flex-none mt-10'>
-                {state.showIntro ? <ChatHeader talk={false}/> : <ChatHeader talk={true}/>}
+                <ChatHeader talk={!state.showIntro} />
             </div>
             <div className={`grow overflow-auto flex ${state.showIntro ? 'justify-center items-center' : ''}`}>
-            {state.showIntro ? <ChatIntro/> :
-                    <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply}/>}
+                {state.showIntro ? <ChatIntro /> : <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply} />}
             </div>
-
             <div className='flex-none p-1'>
-                <ChatInput onSendMessage={handleSendMessage}/>
+                <ChatInput onSendMessage={handleSendMessage} />
             </div>
         </div>
     );
 }
 
 export default ChatContainer;
-
