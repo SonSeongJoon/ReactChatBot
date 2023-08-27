@@ -3,9 +3,9 @@ import images from "./images";
 
 function ChatIntro() {
     return (
-        <div className="w-full mb-40">
+        <div className="w-full">
             <div
-                className="text-rgba(37, 39, 48, 1) font-neo text-60px text-center flex justify-center items-center">
+                className="flex text-rgba(37, 39, 48, 1) font-neo text-60px text-center flex justify-center items-center">
                 <img src={images.mainIcon} alt="Main Icon" className="w-85px h-85px"/>
                 <p className='font-bold text-5xl'>;Hㅣ</p>
             </div>

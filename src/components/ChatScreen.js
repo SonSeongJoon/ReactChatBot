@@ -16,7 +16,7 @@ function ChatScreen({ messages, onKeywordClick, lastReply, loading }) {
 
 
     return (
-        <div className="w-full overflow-auto max-h-[calc(100vh-100px)]">
+        <div className="w-full">
             <div className="flex flex-col gap-2 p-4">
                 {messages.map((message, index) => (
                     <MessageCard
