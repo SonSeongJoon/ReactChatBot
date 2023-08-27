@@ -100,8 +100,8 @@ function ChatContainer() {
             <div className='flex-none mt-10'>
                 {state.showIntro ? <ChatHeader talk={false}/> : <ChatHeader talk={true}/>}
             </div>
-            <div className='grow  overflow-auto flex items-center justify-center'>
-                {state.showIntro ? <ChatIntro/> :
+            <div className={`grow overflow-auto flex ${state.showIntro ? 'justify-center items-center' : ''}`}>
+            {state.showIntro ? <ChatIntro/> :
                     <ChatScreen messages={state.messages} onKeywordClick={onKeywordClick} lastReply={lastReply}/>}
             </div>
 
