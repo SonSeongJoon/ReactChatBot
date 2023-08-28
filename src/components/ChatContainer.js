@@ -32,14 +32,14 @@ function ChatContainer() {
     const handleSendMessage = async (inputText) => {
         if (!inputText) return;
 
-        dispatch({ type: 'SEND_MESSAGE', payload: inputText });
+        dispatch({ type: 'SEND_MESSAGE', userinput: inputText });
 
         const reply = replies.find(r => r.question === inputText);
 
         if (!reply?.answer?.fromButton) {
             const response = await lang(inputText);
             let data = response.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z\s]/g, '');
-            dispatch({ type: 'ADD_MESSAGE', payload: { text: data, isUser: false } });
+            dispatch({ type: 'ADD_MESSAGE', userinput: { text: data, isUser: false } });
         }
     };
 
@@ -52,7 +52,7 @@ function ChatContainer() {
             [messageType]: keywordAnswer,
             isUser: false
         };
-        dispatch({ type: 'ADD_MESSAGE', payload: newMessage });
+        dispatch({ type: 'ADD_MESSAGE', userinput: newMessage });
     };
 
     return (
