@@ -4,9 +4,9 @@ import {produce} from "immer";
 export const chatReducer = produce((draft, action) => {
     switch (action.type) {
         case 'SEND_MESSAGE':
-            const userMessage = {text: action.payload, isUser: true};
+            const userMessage = {text: action.userinput, isUser: true};
 
-            const reply = replies.find(r => r.question === action.payload);
+            const reply = replies.find(r => r.question === action.userinput);
             draft.messages.push(userMessage)
 
             if (reply) {
@@ -16,7 +16,7 @@ export const chatReducer = produce((draft, action) => {
             break;
 
         case 'ADD_MESSAGE':
-            draft.messages.push(action.payload);
+            draft.messages.push(action.userinput);
             break;
         default:
             break;
