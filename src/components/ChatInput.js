@@ -1,29 +1,30 @@
-import React, { useState , memo} from 'react';
+import React, {useCallback, useState} from 'react';
 import images from './images';
 
-function ChatInput({ onSendMessage }) {
+function ChatInput({onSendMessage}) {
     const [userInput, setUserInput] = useState('');
 
-    const sendMessage = () => {
+    const sendMessage = useCallback(() => {
         console.log("sendMessage called with:", userInput);
         if (userInput.trim() === '') return;
         onSendMessage(userInput);
         setUserInput('');
-    };
-    const handleInputChange = (event) => {
-        setUserInput(event.target.value);
-    };
+    }, [userInput, onSendMessage]);
 
-    const handleInputKeyUp = (event) => {
+    const handleInputChange = useCallback((event) => {
+        setUserInput(event.target.value);
+    }, []);
+
+    const handleInputKeyUp = useCallback((event) => {
         if (event.key === 'Enter') {
             sendMessage();
         }
-    };
+    }, [sendMessage]);
 
     return (
         <div className="flex items-center justify-between w-3/4 mx-auto rounded-full px-3 shadow-top-xl">
             <div className="flex w-full">
-                <img src={images.searchIcon} alt="Search Icon" className="mt-2 w-[40px] h-[40px]" />
+                <img src={images.searchIcon} alt="Search Icon" className="mt-2 w-[40px] h-[40px]"/>
                 <input
                     type="text"
                     placeholder="질문을 입력하세요!"
@@ -39,4 +40,5 @@ function ChatInput({ onSendMessage }) {
         </div>
     );
 }
-export default memo(ChatInput);
+
+export default ChatInput;
