@@ -1,54 +1,52 @@
 import React from 'react';
 
-function MessageCard({message, isUser, image, video}) {
+function ImageDisplay({src}) {
     return (
-        <div className={`message flex w-full ${isUser ? 'justify-end self-end' : 'justify-start self-start'}`}>
+        <div className='rounded-lg py-2 px-4 mt-4' style={{
+            backgroundColor: '#F7F7FA',
+            display: 'inline-block'
+        }}>
+            <div className="mt-2">
+                <img src={src} alt="Bot message image" className="w-full max-w-xs rounded"/>
+            </div>
+        </div>
+    )
+}
+
+function VideoDisplay({src}) {
+    return (
+        <div className='rounded-lg py-2 px-4 mt-4' style={{backgroundColor: '#F7F7FA'}}>
+            <video width="320" height="240" controls>
+                <source src={src} type="video/mp4"/>
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    )
+}
+
+function MessageCard({message, isUser, image, video}) {
+    const justify = isUser ? 'justify-end self-end' : 'justify-start self-start';
+    const textColor = isUser ? 'text-white' : 'text-black';
+    return (
+        <div className={`message flex w-full ${justify}`}>
             {isUser ? (
-                <div className="bot-card chat-bubble rounded-lg py-2 px-4 text-white text-md shadow-lg" style={{backgroundColor: '#02B394'}}>
+                <div className={`bot-card chat-bubble rounded-lg py-2 px-4 text-md shadow-lg ${textColor}`}
+                     style={{backgroundColor: '#02B394'}}>
                     <div dangerouslySetInnerHTML={{__html: message}}></div>
-                    {video && (
-                        <video width="320" height="240" controls>
-                            <source src={video} type="video/mp4"/>
-                            Your browser does not support the video tag.
-                        </video>
-                    )}
-                    {image && (
-                        <div className="mt-2">
-                            {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                            <img src={image} alt="image" className="w-full max-w-xs rounded"/>
-                        </div>
-                    )}
+                    {image && <ImageDisplay src={image}/>}
+                    {video && <VideoDisplay src={video}/>}
                 </div>
             ) : (
                 <div>
                     {message &&
-                        <div className="bot-card chat-bubble rounded-lg py-2 px-4 shadow-lg" style={{backgroundColor: '#F7F7FA'}}>
-                            {<div dangerouslySetInnerHTML={{__html: message}}></div>}
-
+                        <div className="bot-card chat-bubble rounded-lg py-2 px-4 shadow-lg"
+                             style={{backgroundColor: '#F7F7FA'}}>
+                            <div dangerouslySetInnerHTML={{__html: message}}></div>
                         </div>}
-                    {image && <div className='rounded-lg py-2 px-4 mt-4' style={{
-                        backgroundColor: '#E9FFFF',
-                        width: 'auto',
-                        height: 'auto',
-                        display: 'inline-block'
-                    }}>
-                        {
-                            <div className="mt-2">
-                                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                                <img src={image} alt="Bot message image" className="w-full max-w-xs rounded"/>
-                            </div>
-                        }
-                    </div>}
-                    {video && (
-                        <div className='rounded-lg py-2 px-4 mt-4' style={{backgroundColor: '#E9FFFF'}}>
-                            <video width="320" height="240" controls>
-                                <source src={video} type="video/mp4"/>
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-
-                    )}
+                    {image && <ImageDisplay src={image}/>}
+                    {video && <VideoDisplay src={video}/>}
                 </div>
+
             )}
         </div>
     );
