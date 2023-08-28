@@ -22,7 +22,7 @@ function ChatInput({onSendMessage}) {
     }, [sendMessage]);
 
     return (
-        <div className="flex items-center justify-between w-3/4 mx-auto rounded-full px-3 shadow-top-xl">
+        <div className="flex items-center justify-between w-3/4 mx-auto rounded-full px-3 shadow-top-xl mt-3">
             <div className="flex w-full">
                 <img src={images.searchIcon} alt="Search Icon" className="mt-2 w-[40px] h-[40px]"/>
                 <input
