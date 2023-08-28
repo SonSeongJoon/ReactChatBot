@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import MessageCard from './MessageCard';
 import ChatButton from './ChatButton';
 
-function ChatScreen({ messages, onKeywordClick, lastReply, loading }) {
+function ChatScreen({ messages, onKeywordClick, lastReply }) {
     const messagesEndRef = useRef(null);
     const keywords = lastReply?.answer.keywords || [];
 
