@@ -1,5 +1,5 @@
 import { OpenAI } from "langchain/llms/openai";
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "";
 
 export const lang = async (userinput) => {
     const llm = new OpenAI({
