@@ -1,0 +1,13 @@
+PyPDF2
+folium
+Flask
+flask-cors
+pytube
+opencv-python
+Pillow
+clip
+torch
+plotly
+requests
+transformers
+diffusers
