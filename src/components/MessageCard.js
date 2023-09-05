@@ -7,7 +7,7 @@ function ImageDisplay({src}) {
             display: 'inline-block'
         }}>
             <div className="mt-2">
-                <img src={src} alt="Bot message image" className="w-full max-w-xs rounded"/>
+                <img src={src} alt="Bot" className="w-full max-w-xs rounded"/>
             </div>
         </div>
     )
